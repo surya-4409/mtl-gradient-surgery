@@ -1,0 +1,21 @@
+# Python environment and cache
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Version control
+.git/
+.gitignore
+
+# Secrets
+.env
+
+# Local outputs (we mount this via docker-compose, so we don't bake it into the image)
+results/
+data/
+
+# OS specific
+.DS_Store
+Thumbs.db

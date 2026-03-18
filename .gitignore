@@ -1,0 +1,21 @@
+# Python Virtual Environments
+venv/
+env/
+.venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Secrets and Configs
+.env
+
+# Project Specific Output
+results/*
+!results/analysis.md  # We DO want to commit your written report
+# Note: The other CSVs and JSON will be ignored so your repo stays clean
+
+# OS specific
+.DS_Store
+Thumbs.db
