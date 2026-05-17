@@ -112,7 +112,7 @@ def main():
         history.append(epoch_metrics)
         print(f"Epoch {epoch + 1}/{config.EPOCHS} | Val Acc A: {epoch_metrics['val_acc_a']:.4f} | Val Acc B: {epoch_metrics['val_acc_b']:.4f}")
 
-    # Save Outputs
+    # Save Outputs utilizing config paths
     df_history = pd.DataFrame(history)
     df_history.to_csv(config.PCGRAD_METRICS_PATH, index=False)
     

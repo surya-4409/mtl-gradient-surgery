@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
 # Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# INCREASED TIMEOUT to prevent TensorFlow download failures
+RUN pip install --default-timeout=1000 --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container at /app
 COPY . .
