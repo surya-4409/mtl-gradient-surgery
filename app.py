@@ -8,6 +8,7 @@ import umap
 import tensorflow as tf
 from src.dataset import get_datasets
 from src.models import MultiTaskModel
+import config
 
 # Streamlit Page Config
 st.set_page_config(page_title="MTL Gradient Surgery Monitor", layout="wide")
@@ -17,10 +18,11 @@ st.title("Multi-Task Learning: PCGrad & Gradient Conflict Monitor")
 @st.cache_data
 def load_metrics():
     try:
-        df_base = pd.read_csv('results/baseline_metrics.csv')
-        df_pc = pd.read_csv('results/pcgrad_metrics.csv')
-        df_conflict = pd.read_csv('results/gradient_conflict.csv')
-        with open('results/final_metrics.json', 'r') as f:
+        # Load files dynamically using the centralized config
+        df_base = pd.read_csv(config.BASELINE_METRICS_PATH)
+        df_pc = pd.read_csv(config.PCGRAD_METRICS_PATH)
+        df_conflict = pd.read_csv(config.GRADIENT_CONFLICT_PATH)
+        with open(config.FINAL_METRICS_PATH, 'r') as f:
             final_metrics = json.load(f)
         return df_base, df_pc, df_conflict, final_metrics
     except FileNotFoundError:
@@ -113,20 +115,18 @@ if df_base is not None:
 
         embedding, y_a, y_b = generate_umap_projections()
         
-        col_u1, col_u2 = st.columns(2)
+        # --- FIXED: Added Interactive Controls ---
+        color_option = st.radio("Select Label for Coloring:", ["Task A Labels", "Task B Labels"], horizontal=True)
         
-        with col_u1:
-            st.subheader("Colored by Task A Labels")
-            fig_u1, ax_u1 = plt.subplots(figsize=(6, 6))
-            scatter1 = ax_u1.scatter(embedding[:, 0], embedding[:, 1], c=y_a, cmap='coolwarm', s=15, alpha=0.8)
-            plt.colorbar(scatter1, ax=ax_u1)
-            st.pyplot(fig_u1)
+        fig_u, ax_u = plt.subplots(figsize=(8, 8))
+        if color_option == "Task A Labels":
+            scatter = ax_u.scatter(embedding[:, 0], embedding[:, 1], c=y_a, cmap='coolwarm', s=20, alpha=0.8)
+            ax_u.set_title("Shared Representation - Colored by Task A")
+        else:
+            scatter = ax_u.scatter(embedding[:, 0], embedding[:, 1], c=y_b, cmap='viridis', s=20, alpha=0.8)
+            ax_u.set_title("Shared Representation - Colored by Task B")
             
-        with col_u2:
-            st.subheader("Colored by Task B Labels")
-            fig_u2, ax_u2 = plt.subplots(figsize=(6, 6))
-            scatter2 = ax_u2.scatter(embedding[:, 0], embedding[:, 1], c=y_b, cmap='viridis', s=15, alpha=0.8)
-            plt.colorbar(scatter2, ax=ax_u2)
-            st.pyplot(fig_u2)
+        plt.colorbar(scatter, ax=ax_u)
+        st.pyplot(fig_u)
             
         st.markdown('</div>', unsafe_allow_html=True)

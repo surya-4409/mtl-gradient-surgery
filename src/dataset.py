@@ -31,6 +31,9 @@ def create_tf_dataset(X, y_a, y_b, batch_size=32, is_training=True):
     
     if is_training:
         dataset = dataset.shuffle(buffer_size=len(X))
+    else:
+        # Optimization: Cache the validation dataset to avoid re-computation each epoch
+        dataset = dataset.cache()
         
     dataset = dataset.batch(batch_size)
     dataset = dataset.prefetch(tf.data.AUTOTUNE)

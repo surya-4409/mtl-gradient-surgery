@@ -1,0 +1,73 @@
+=== Full Multi-Task Model Architecture ===
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                Output Shape                 Param #   Connected to                  
+==================================================================================================
+ input_2 (InputLayer)        [(None, 128)]                0         []                            
+                                                                                                  
+ shared_backbone (Sequentia  (None, 64)                   25536     ['input_2[0][0]']             
+ l)                                                                                               
+                                                                                                  
+ task_a_head (Sequential)    (None, 1)                    2113      ['shared_backbone[0][0]']     
+                                                                                                  
+ task_b_head (Sequential)    (None, 1)                    2113      ['shared_backbone[0][0]']     
+                                                                                                  
+==================================================================================================
+Total params: 29762 (116.26 KB)
+Trainable params: 29378 (114.76 KB)
+Non-trainable params: 384 (1.50 KB)
+__________________________________________________________________________________________________
+
+
+=== Shared Backbone Architecture ===
+Model: "shared_backbone"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ shared_dense_1 (Dense)      (None, 128)               16512     
+                                                                 
+ shared_bn_1 (BatchNormaliz  (None, 128)               512       
+ ation)                                                          
+                                                                 
+ shared_dense_2 (Dense)      (None, 64)                8256      
+                                                                 
+ shared_bn_2 (BatchNormaliz  (None, 64)                256       
+ ation)                                                          
+                                                                 
+=================================================================
+Total params: 25536 (99.75 KB)
+Trainable params: 25152 (98.25 KB)
+Non-trainable params: 384 (1.50 KB)
+_________________________________________________________________
+
+
+=== Task A Head Architecture ===
+Model: "task_a_head"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ task_a_dense_1 (Dense)      (None, 32)                2080      
+                                                                 
+ task_a_output (Dense)       (None, 1)                 33        
+                                                                 
+=================================================================
+Total params: 2113 (8.25 KB)
+Trainable params: 2113 (8.25 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
+
+
+=== Task B Head Architecture ===
+Model: "task_b_head"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ task_b_dense_1 (Dense)      (None, 32)                2080      
+                                                                 
+ task_b_output (Dense)       (None, 1)                 33        
+                                                                 
+=================================================================
+Total params: 2113 (8.25 KB)
+Trainable params: 2113 (8.25 KB)
+Non-trainable params: 0 (0.00 Byte)
+_________________________________________________________________
