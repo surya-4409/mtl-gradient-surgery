@@ -37,4 +37,4 @@ def get_datasets(batch_size=32, input_dim=128):
     train_dataset = create_tf_dataset(X_train, ya_train, yb_train, batch_size, is_training=True)
     val_dataset = create_tf_dataset(X_val, ya_val, yb_val, batch_size, is_training=False)
     
-    return train_dataset, val_dataset
+    return train_dataset, val_dataset   
